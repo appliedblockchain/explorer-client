@@ -1,0 +1,24 @@
+{
+  "name": "@appliedblockchain/block-explorer-client",
+  "version": "0.1.0",
+  "description": "React client component for Applied Blockchain block explorer",
+  "license": "UNLICENSED",
+  "repository": "appliedblockchain/block-explorer-server",
+  "author": "Tahseen Malik <tahseen@appliedblockchain.com> (https://appliedblockchain.com/)",
+  "main": "index.js",
+  "scripts": {
+    "postversion": "git push && git push --tags",
+    "release:patch": "npm version patch && npm publish",
+    "release:minor": "npm version minor && npm publish",
+    "release:major": "npm version major && npm publish"
+  },
+  "keywords": [
+    "ethereum",
+    "block explorer",
+    "web3",
+    "applied blockchain"
+  ],
+  "devDependencies": {
+    "@appliedblockchain/eslint-config": "^2.2.0"
+  }
+}
