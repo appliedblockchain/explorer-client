@@ -6,6 +6,8 @@
   "repository": "appliedblockchain/block-explorer-server",
   "author": "Tahseen Malik <tahseen@appliedblockchain.com> (https://appliedblockchain.com/)",
   "main": "index.js",
+  "module": "index.js",
+  "jsnext:main": "index.js",
   "scripts": {
     "postversion": "git push && git push --tags",
     "release:patch": "npm version patch && npm publish",
