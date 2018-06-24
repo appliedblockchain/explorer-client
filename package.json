@@ -1,6 +1,6 @@
 {
   "name": "@appliedblockchain/block-explorer-client",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "React client component for Applied Blockchain block explorer",
   "license": "UNLICENSED",
   "repository": "appliedblockchain/block-explorer-server",
