@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import isString from 'lodash/isString'
 import capitalize from 'lodash/capitalize'
+import isEmpty from 'lodash/isEmpty'
 import ReactJson from 'react-json-view'
 import Text from '@material-ui/core/Typography'
 import Table from '@material-ui/core/Table'
@@ -38,66 +39,72 @@ const styles = {
   }
 }
 
-const EventLogs = ({ logs, classes }) => (
-  <section className={style.root}>
-    <div className={style.title}>
-      <Text variant="title">Event Logs</Text>
-    </div>
+const EventLogs = ({ classes, tx }) => {
+  if (isEmpty(tx.logs)) {
+    return null
+  }
 
-    {/** @NOTE: Events with params are expanded to show params table */}
-    {logs.map(({ id, data, topics, logIndex, name, params }, idx) => (
-      <ExpansionPanel key={id} defaultExpanded={Array.isArray(params)}>
-        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-          <Text>{isString(name) ? `${name}( )` : `Event ${idx + 1}`}</Text>
-        </ExpansionPanelSummary>
+  return (
+    <section className={style.root}>
+      <div className={style.title}>
+        <Text variant="title">Event Logs</Text>
+      </div>
 
-        <ExpansionPanelDetails>
-          {isString(name) && Array.isArray(params)
-            ? (
-              <div style={{ width: '100%' }}>
-                <Paper>
-                  <Table className={classes.table}>
-                    <TableHead>
-                      <TableRow>
-                        <TableCell className={classes.medium}>Param</TableCell>
-                        <TableCell className={classes.small}>Type</TableCell>
-                        <TableCell className={classes.small}>Indexed</TableCell>
-                        <TableCell className={classes.large}>Value</TableCell>
-                      </TableRow>
-                    </TableHead>
+      {/** @NOTE: Events with params are expanded to show params table */}
+      {tx.logs.map(({ id, data, topics, logIndex, name, params }, idx) => (
+        <ExpansionPanel key={id} defaultExpanded={Array.isArray(params)}>
+          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+            <Text>{isString(name) ? `${name}( )` : `Event ${idx + 1}`}</Text>
+          </ExpansionPanelSummary>
 
-                    <TableBody>
-                      {params.map(param => (
-                        <TableRow key={param.name}>
-                          <CustomTableCell className={classes.medium}>
-                            {param.name}
-                          </CustomTableCell>
-                          <CustomTableCell className={classes.small}>
-                            {param.type}
-                          </CustomTableCell>
-                          <CustomTableCell className={classes.small}>
-                            {capitalize(String(param.indexed))}
-                          </CustomTableCell>
-                          <CustomTableCell className={classes.large}>
-                            {String(param.value)}
-                          </CustomTableCell>
+          <ExpansionPanelDetails>
+            {isString(name) && Array.isArray(params)
+              ? (
+                <div style={{ width: '100%' }}>
+                  <Paper>
+                    <Table className={classes.table}>
+                      <TableHead>
+                        <TableRow>
+                          <TableCell className={classes.medium}>Param</TableCell>
+                          <TableCell className={classes.small}>Type</TableCell>
+                          <TableCell className={classes.small}>Indexed</TableCell>
+                          <TableCell className={classes.large}>Value</TableCell>
                         </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </Paper>
-              </div>
-            )
-            : <ReactJson src={{ id, data, topics, logIndex }} />
-          }
-        </ExpansionPanelDetails>
-      </ExpansionPanel>
-    ))}
-  </section>
-)
+                      </TableHead>
+
+                      <TableBody>
+                        {params.map(param => (
+                          <TableRow key={param.name}>
+                            <CustomTableCell className={classes.medium}>
+                              {param.name}
+                            </CustomTableCell>
+                            <CustomTableCell className={classes.small}>
+                              {param.type}
+                            </CustomTableCell>
+                            <CustomTableCell className={classes.small}>
+                              {capitalize(String(param.indexed))}
+                            </CustomTableCell>
+                            <CustomTableCell className={classes.large}>
+                              {String(param.value)}
+                            </CustomTableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </Paper>
+                </div>
+              )
+              : <ReactJson src={{ id, data, topics, logIndex }} />
+            }
+          </ExpansionPanelDetails>
+        </ExpansionPanel>
+      ))}
+    </section>
+  )
+}
 
 EventLogs.propTypes = {
-  logs: PropTypes.array.isRequired,
+  tx: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired
 }
 

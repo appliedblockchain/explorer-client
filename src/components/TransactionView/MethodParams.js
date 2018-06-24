@@ -25,47 +25,52 @@ const styles = {
   }
 }
 
-const MethodParams = ({ name, params, classes }) => (
-  <section className={style.root}>
-    <div className={style.title}>
-      <Text variant="title">
-        <span className={style.methodName}>{name}( )</span>
-      </Text>
-    </div>
+const MethodParams = ({ classes, tx }) => {
+  if (!tx.enhanced) {
+    return null
+  }
 
-    <Paper>
-      <Table className={classes.table}>
-        <TableHead>
-          <TableRow>
-            <TableCell className={classes.param}>Param</TableCell>
-            <TableCell className={classes.param}>Type</TableCell>
-            <TableCell className={classes.paramValue}>Value</TableCell>
-          </TableRow>
-        </TableHead>
+  return (
+    <section className={style.root}>
+      <div className={style.title}>
+        <Text variant="title">
+          <span className={style.methodName}>{tx.name}( )</span>
+        </Text>
+      </div>
 
-        <TableBody>
-          {params.map(param => (
-            <TableRow key={param.name}>
-              <TableCell className={classes.param}>
-                {param.name}
-              </TableCell>
-              <TableCell className={classes.param}>
-                {param.type}
-              </TableCell>
-              <TableCell className={classes.paramValue}>
-                {String(param.value)}
-              </TableCell>
+      <Paper>
+        <Table className={classes.table}>
+          <TableHead>
+            <TableRow>
+              <TableCell className={classes.param}>Param</TableCell>
+              <TableCell className={classes.param}>Type</TableCell>
+              <TableCell className={classes.paramValue}>Value</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </Paper>
-  </section>
-)
+          </TableHead>
+
+          <TableBody>
+            {tx.params.map(param => (
+              <TableRow key={param.name}>
+                <TableCell className={classes.param}>
+                  {param.name}
+                </TableCell>
+                <TableCell className={classes.param}>
+                  {param.type}
+                </TableCell>
+                <TableCell className={classes.paramValue}>
+                  {String(param.value)}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </Paper>
+    </section>
+  )
+}
 
 MethodParams.propTypes = {
-  name: PropTypes.string.isRequired,
-  params: PropTypes.array.isRequired,
+  tx: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired
 }
 
