@@ -31,7 +31,7 @@ export const createNavbar = (color = '#4396ec', Logo = defaultLogo) => {
     classes: PropTypes.object.isRequired
   }
 
-  withStyles(styles)(Navbar)
+  return withStyles(styles)(Navbar)
 }
 
 export default createNavbar()
