@@ -34,7 +34,7 @@ const MethodParams = ({ classes, tx }) => {
     <section className={style.root}>
       <div className={style.title}>
         <Text variant="title">
-          <span className={style.methodName}>{tx.name}( )</span>
+          <span className={style.methodName}>{tx.method}( )</span>
         </Text>
       </div>
 
