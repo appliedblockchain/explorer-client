@@ -1,5 +1,5 @@
 'use strict'
 
 module.exports = {
-  extends: '@appliedblockchain/eslint-config'
+  extends: '@appliedblockchain/eslint-config/react'
 }

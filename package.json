@@ -5,13 +5,13 @@
   "license": "UNLICENSED",
   "repository": "appliedblockchain/block-explorer-server",
   "author": "Tahseen Malik <tahseen@appliedblockchain.com> (https://appliedblockchain.com/)",
-  "main": "es/index.js",
-  "module": "es/index.js",
-  "jsnext:main": "es/index.js",
+  "main": "index.js",
+  "module": "index.js",
+  "jsnext:main": "index.js",
   "scripts": {
-    "clean": "rimraf es",
+    "clean": "rimraf index.js api.js components containers",
     "prebuild": "npm run clean",
-    "build": "babel --copy-files src --out-dir es",
+    "build": "babel --copy-files src --out-dir .",
     "preversion": "npm run build",
     "postversion": "git push && git push --tags",
     "release:patch": "npm version patch && npm publish",
@@ -19,11 +19,6 @@
     "release:major": "npm version major && npm publish",
     "postpublish": "npm run clean"
   },
-  "files": [
-    "es",
-    "src",
-    "index.scss"
-  ],
   "keywords": [
     "ethereum",
     "block explorer",
@@ -46,9 +41,10 @@
     "@appliedblockchain/eslint-config": "^2.2.0",
     "@babel/cli": "^7.0.0-beta.51",
     "@babel/core": "^7.0.0-beta.51",
+    "@babel/plugin-proposal-class-properties": "^7.0.0-beta.51",
     "@babel/preset-env": "^7.0.0-beta.51",
     "@babel/preset-react": "^7.0.0-beta.51",
-    "@babel/plugin-proposal-class-properties": "^7.0.0-beta.51",
+    "eslint": "^5.0.0",
     "rimraf": "^2.6.2"
   }
 }
