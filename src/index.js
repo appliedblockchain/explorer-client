@@ -3,17 +3,18 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { createHome } from './containers/Home'
 import { createBlock } from './containers/Block'
 import { createTransaction } from './containers/Transaction'
-import { HomeView, BlockView, TransactionView } from './components'
+import { HomeView, BlockView, TransactionView, Navbar } from './components'
 
 /* :: object -> Function */
 export const createApp = ({
   homepage = HomeView,
   blockPage = BlockView,
-  transactionPage = TransactionView
+  transactionPage = TransactionView,
+  navbar = Navbar
 } = {}) => {
-  const Home = createHome(homepage)
-  const Block = createBlock(blockPage)
-  const Transaction = createTransaction(transactionPage)
+  const Home = createHome(homepage, navbar)
+  const Block = createBlock(blockPage, navbar)
+  const Transaction = createTransaction(transactionPage, navbar)
 
   const App = () => (
     <Router>

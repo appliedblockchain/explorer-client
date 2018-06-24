@@ -1,6 +1,5 @@
-
 'use strict'
 
 module.exports = {
-  extends: '@appliedblockchain'
+  extends: '@appliedblockchain/eslint-config'
 }

@@ -1,11 +1,11 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import isNull from 'lodash/isNull'
-import { Navbar, Main, Loading } from '../components'
+import { Main, Loading } from '../components'
 import * as api from '../api'
 
 /* :: Function -> Function */
-export const createTransaction = (TransactionView) => {
+export const createTransaction = (TransactionView, Navbar) => {
   class Transaction extends Component {
     state = {
       transaction: null
