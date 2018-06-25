@@ -3,7 +3,7 @@ import isNull from 'lodash/isNull'
 import { Main, Loading } from '../components'
 import * as api from '../api'
 
-/* :: Function -> Function */
+/* :: (Function, Function) -> Home */
 export const createHome = (HomeView, Navbar) => class Home extends Component {
   state = {
     blocks: null,
@@ -19,7 +19,17 @@ export const createHome = (HomeView, Navbar) => class Home extends Component {
     clearInterval(this.polling)
   }
 
+  isLoading() {
+    const { blocks, transactions } = this.state
+
+    return isNull(blocks) || isNull(transactions)
+  }
+
   async getData() {
+    if (this.isLoading()) {
+      return
+    }
+
     const [
       blocks,
       transactions
@@ -34,7 +44,7 @@ export const createHome = (HomeView, Navbar) => class Home extends Component {
   render() {
     const { blocks, transactions } = this.state
 
-    if (isNull(blocks) || isNull(transactions)) {
+    if (this.isLoading()) {
       return <Loading />
     }
 
