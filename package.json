@@ -13,11 +13,11 @@
     "clean": "rimraf index.js api.js components containers",
     "prebuild": "npm run clean",
     "build": "babel --copy-files src --out-dir .",
-    "preversion": "npm run build",
     "postversion": "git push && git push --tags",
-    "release:patch": "npm version patch && npm publish",
-    "release:minor": "npm version minor && npm publish",
-    "release:major": "npm version major && npm publish",
+    "patch": "npm version patch",
+    "minor": "npm version minor",
+    "major": "npm version major",
+    "prepublish": "npm run build",
     "postpublish": "npm run clean"
   },
   "keywords": [
