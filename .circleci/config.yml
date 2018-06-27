@@ -3,7 +3,6 @@ jobs:
   build:
     docker:
       - image: circleci/node:10
-
     steps:
       - checkout
       - run:
@@ -16,7 +15,6 @@ jobs:
   publish:
     docker:
       - image: circleci/node:10
-
     steps:
       - checkout
       - run:
@@ -24,6 +22,7 @@ jobs:
           command: echo "//registry.npmjs.org/:_authToken=$PRIVATE_NPM_TOKEN" > ~/.npmrc
       - run: npm install
       - run: npm publish
+
 
 workflows:
   version: 2
@@ -33,8 +32,8 @@ workflows:
           context: org-global
       - publish:
           context: org-global
+          requires:
+            - build
           filters:
             tags:
               only: /v.*/
-            branches:
-              only: master
