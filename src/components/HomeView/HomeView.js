@@ -9,7 +9,6 @@ import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
 import { Link } from 'react-router-dom'
-import { unprefixHex } from '@appliedblockchain/bdash'
 import { styles } from './style'
 
 const CustomTableCell = withStyles(theme => ({
@@ -46,7 +45,7 @@ const HomeView = ({ blocks, transactions, classes }) => (
                   </Link>
                 </CustomTableCell>
                 <CustomTableCell>
-                  <Link className={classes.link} to={`/transactions/${unprefixHex(tx.hash)}`}>
+                  <Link className={classes.link} to={`/transactions/${tx.hash}`}>
                     <span className={classes.mono}>{tx.hash}</span>
                   </Link>
                 </CustomTableCell>

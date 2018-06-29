@@ -8,7 +8,6 @@ import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
-import { unprefixHex } from '@appliedblockchain/bdash'
 import style from './style.module.scss'
 
 const BlockView = ({ info }) => (
@@ -78,7 +77,7 @@ const BlockView = ({ info }) => (
             {info.transactions.map(tx => (
               <TableRow key={tx}>
                 <TableCell>
-                  <Link className={style.tx} to={`/transactions/${unprefixHex(tx)}`}>
+                  <Link className={style.tx} to={`/transactions/${tx}`}>
                     {tx}
                   </Link>
                 </TableCell>
