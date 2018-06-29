@@ -18,10 +18,15 @@ const styles = {
   param: {
     width: '15%'
   },
-  paramValue: {
+  paramValueWrap: {
     width: '70%',
-    overflow: 'hidden',
     wordWrap: 'break-word'
+  },
+  paramValue: {
+    display: 'block',
+    width: '100%',
+    maxHeight: '175px',
+    overflow: 'auto'
   }
 }
 
@@ -57,8 +62,10 @@ const MethodParams = ({ classes, tx }) => {
                 <TableCell className={classes.param}>
                   {param.type}
                 </TableCell>
-                <TableCell className={classes.paramValue}>
-                  {String(param.value)}
+                <TableCell className={classes.paramValueWrap}>
+                  <span className={classes.paramValue}>
+                    {String(param.value)}
+                  </span>
                 </TableCell>
               </TableRow>
             ))}

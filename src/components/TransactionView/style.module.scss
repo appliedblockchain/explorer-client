@@ -13,16 +13,15 @@
 .link {
   text-decoration: none;
   color: #d02d52;
-}
 
-.link:hover, .link:focus {
-  text-decoration: underline;
+  &:hover, &:focus { text-decoration: underline }
 }
 
 .data {
   box-sizing: border-box;
   display: block;
   max-width: 708px;
+  max-height: 225px;
   overflow: auto;
   word-wrap: break-word;
   font-family: menlo, 'Courier New', Courier, monospace;

@@ -36,6 +36,12 @@ const styles = {
   small: {
     width: '12.5%',
     overflow: 'hidden'
+  },
+  eventValue: {
+    display: 'block',
+    width: '100%',
+    maxHeight: '150px',
+    overflow: 'auto'
   }
 }
 
@@ -85,7 +91,9 @@ const EventLogs = ({ classes, tx }) => {
                               {capitalize(String(param.indexed))}
                             </CustomTableCell>
                             <CustomTableCell className={classes.large}>
-                              {String(param.value)}
+                              <span className={classes.eventValue}>
+                                {String(param.value)}
+                              </span>
                             </CustomTableCell>
                           </TableRow>
                         ))}
