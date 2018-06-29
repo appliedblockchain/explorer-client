@@ -51,6 +51,12 @@ const TransactionInfo = ({ tx }) => (
             <TableCell>{tx.gasPrice}</TableCell>
           </TableRow>
 
+          {/** Gas Limit */}
+          <TableRow>
+            <TableCell component="th" scope="row">Gas limit</TableCell>
+            <TableCell>{tx.gas}</TableCell>
+          </TableRow>
+
           {/** Gas Used */}
           <TableRow>
             <TableCell component="th" scope="row">Gas used</TableCell>
