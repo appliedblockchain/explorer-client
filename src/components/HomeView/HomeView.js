@@ -21,39 +21,48 @@ const CustomTableCell = withStyles(theme => ({
   }
 }))(TableCell)
 
+/* :: object[] -> boolean */
+const isTxLoading = txs => txs.some(({ loading }) => loading)
+
 const HomeView = ({ blocks, transactions, classes }) => (
   <Fragment>
     {/** Transactions */}
     <section className={classes.section}>
-      <Text variant="title" className={classes.title}>Latest Transactions</Text>
+      <Text variant="title" className={classes.title}>
+        Latest Transactions {isTxLoading(transactions) && '(syncing)'}
+      </Text>
 
-      <Paper className={classes.root}>
-        <Table className={classes.table}>
-          <TableHead>
-            <TableRow>
-              <CustomTableCell>Block</CustomTableCell>
-              <CustomTableCell>Transaction</CustomTableCell>
-            </TableRow>
-          </TableHead>
+      {
+        !isTxLoading(transactions) && (
+          <Paper className={classes.root}>
+            <Table className={classes.table}>
+              <TableHead>
+                <TableRow>
+                  <CustomTableCell>Block</CustomTableCell>
+                  <CustomTableCell>Transaction</CustomTableCell>
+                </TableRow>
+              </TableHead>
 
-          <TableBody>
-            {transactions.map(tx => (
-              <TableRow className={classes.row} key={tx.hash}>
-                <CustomTableCell>
-                  <Link className={classes.link} to={`/blocks/${tx.blockNumber}`}>
-                    {tx.blockNumber}
-                  </Link>
-                </CustomTableCell>
-                <CustomTableCell>
-                  <Link className={classes.link} to={`/transactions/${tx.hash}`}>
-                    <span className={classes.mono}>{tx.hash}</span>
-                  </Link>
-                </CustomTableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </Paper>
+              <TableBody>
+                {transactions.map(tx => (
+                  <TableRow className={classes.row} key={tx.hash}>
+                    <CustomTableCell>
+                      <Link className={classes.link} to={`/blocks/${tx.blockNumber}`}>
+                        {tx.blockNumber}
+                      </Link>
+                    </CustomTableCell>
+                    <CustomTableCell>
+                      <Link className={classes.link} to={`/transactions/${tx.hash}`}>
+                        <span className={classes.mono}>{tx.hash}</span>
+                      </Link>
+                    </CustomTableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </Paper>
+        )
+      }
     </section>
 
     {/** Blocks */}
