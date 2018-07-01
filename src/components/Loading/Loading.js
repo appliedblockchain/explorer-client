@@ -1,8 +1,9 @@
 import React, { Fragment } from 'react'
-import { Main, Navbar } from '../../components'
+import PropTypes from 'prop-types'
+import { Main } from '../../components'
 import style from './style.module.scss'
 
-const Loading = () => (
+const Loading = ({ navbar: Navbar }) => (
   <Fragment>
     <Navbar />
     <Main className={style.main}>
@@ -31,5 +32,9 @@ const Loading = () => (
     </Main>
   </Fragment>
 )
+
+Loading.propTypes = {
+  navbar: PropTypes.func
+}
 
 export default Loading

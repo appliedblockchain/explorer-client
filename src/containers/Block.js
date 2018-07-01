@@ -26,7 +26,7 @@ export const createBlock = (BlockView, Navbar) => {
       const { block } = this.state
 
       if (isNull(block)) {
-        return <Loading />
+        return <Loading navbar={Navbar} />
       }
 
       return (

@@ -27,7 +27,7 @@ export const createTransaction = (TransactionView, Navbar) => {
       const { transaction } = this.state
 
       if (isNull(transaction)) {
-        return <Loading />
+        return <Loading navbar={Navbar} />
       }
 
       return (

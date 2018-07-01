@@ -49,7 +49,7 @@ export const createHome = (HomeView, Navbar) => class Home extends Component {
     const { blocks, transactions } = this.state
 
     if (this.isLoading()) {
-      return <Loading />
+      return <Loading navbar={Navbar} />
     }
 
     return (
