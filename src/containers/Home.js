@@ -12,7 +12,7 @@ export const createHome = (HomeView, Navbar) => class Home extends Component {
 
   componentDidMount() {
     this.getData()
-    this.polling = setInterval(() => this.getData(), 5000)
+    this.polling = setInterval(this.pollLatestData.bind(this), 3000)
   }
 
   componentWillUnmount() {
@@ -25,11 +25,15 @@ export const createHome = (HomeView, Navbar) => class Home extends Component {
     return isNull(blocks) || isNull(transactions)
   }
 
-  async getData() {
+  pollLatestData() {
     if (this.isLoading()) {
       return
     }
 
+    this.getData()
+  }
+
+  async getData() {
     const [
       blocks,
       transactions
