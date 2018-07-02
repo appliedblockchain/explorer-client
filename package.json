@@ -9,10 +9,11 @@
   "module": "lib.js",
   "jsnext:main": "lib.js",
   "scripts": {
+    "start": "react-scripts start",
     "lint": "eslint src",
     "clean": "rimraf index.css index.scss lib.js index.js api.js components containers",
-    "prebuild": "npm run clean",
     "build": "babel --copy-files src --out-dir .",
+    "postbuild": "rimraf index.js",
     "postversion": "git push && git push --tags",
     "prepublish": "npm run build"
   },
@@ -42,6 +43,19 @@
     "@babel/preset-env": "^7.0.0-beta.51",
     "@babel/preset-react": "^7.0.0-beta.51",
     "eslint": "^4.15.0",
+    "node-sass": "^4.9.0",
+    "react-dom": "^16.4.1",
+    "react-scripts": "^2.0.0-next.66cc7a90",
     "rimraf": "^2.6.2"
-  }
+  },
+  "browserslist": {
+    "development": [
+      "last 2 chrome versions"
+    ],
+    "production": [
+      "> 1%",
+      "not IE <= 11"
+    ]
+  },
+  "proxy": "http://localhost:3001/"
 }
