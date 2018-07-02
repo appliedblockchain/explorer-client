@@ -14,9 +14,6 @@
     "prebuild": "npm run clean",
     "build": "babel --copy-files src --out-dir .",
     "postversion": "git push && git push --tags",
-    "patch": "npm version patch",
-    "minor": "npm version minor",
-    "major": "npm version major",
     "prepublish": "npm run build",
     "postpublish": "npm run clean"
   },
