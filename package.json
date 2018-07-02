@@ -5,17 +5,16 @@
   "license": "UNLICENSED",
   "repository": "appliedblockchain/block-explorer-server",
   "author": "Tahseen Malik <tahseen@appliedblockchain.com> (https://appliedblockchain.com/)",
-  "main": "index.js",
-  "module": "index.js",
-  "jsnext:main": "index.js",
+  "main": "lib.js",
+  "module": "lib.js",
+  "jsnext:main": "lib.js",
   "scripts": {
     "lint": "eslint src",
-    "clean": "rimraf index.js api.js components containers",
+    "clean": "rimraf index.css index.scss lib.js index.js api.js components containers",
     "prebuild": "npm run clean",
     "build": "babel --copy-files src --out-dir .",
     "postversion": "git push && git push --tags",
-    "prepublish": "npm run build",
-    "postpublish": "npm run clean"
+    "prepublish": "npm run build"
   },
   "keywords": [
     "ethereum",
