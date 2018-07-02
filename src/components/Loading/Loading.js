@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 import { Main } from '../../components'
 import style from './style.module.scss'
 
-const Loading = ({ navbar: Navbar }) => (
+const Loading = ({ navbar: Navbar, history }) => (
   <Fragment>
-    <Navbar />
+    <Navbar history={history} />
     <Main className={style.main}>
       <svg
         version="1.1"
@@ -34,7 +34,8 @@ const Loading = ({ navbar: Navbar }) => (
 )
 
 Loading.propTypes = {
-  navbar: PropTypes.func
+  navbar: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired
 }
 
 export default Loading

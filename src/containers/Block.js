@@ -15,23 +15,33 @@ export const createBlock = (BlockView, Navbar) => {
       this.getBlock()
     }
 
+    componentDidUpdate() {
+      this.getBlock()
+    }
+
     async getBlock() {
       const blockNumber = parseInt(this.props.match.params.number, 10)
       const block = await api.getBlock(blockNumber)
+
+      /** Take them to the 404 page as block does not exist */
+      if (isNull(block)) {
+        this.props.history.push('/block-not-found')
+      }
 
       this.setState({ block })
     }
 
     render() {
       const { block } = this.state
+      const { history } = this.props
 
       if (isNull(block)) {
-        return <Loading navbar={Navbar} />
+        return <Loading navbar={Navbar} history={history} />
       }
 
       return (
         <Fragment>
-          <Navbar />
+          <Navbar history={history} />
           <Main>
             <BlockView info={block} />
           </Main>
@@ -41,7 +51,8 @@ export const createBlock = (BlockView, Navbar) => {
   }
 
   Block.propTypes = {
-    match: PropTypes.object.isRequired
+    match: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired
   }
 
   return Block
