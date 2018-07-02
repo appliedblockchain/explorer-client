@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
+import { isString } from 'lodash'
 import { withStyles } from '@material-ui/core/styles'
 import Text from '@material-ui/core/Typography'
 import Table from '@material-ui/core/Table'
@@ -11,6 +12,7 @@ import Paper from '@material-ui/core/Paper'
 import { Link } from 'react-router-dom'
 import { styles } from './style'
 
+/* :: object -> React.Node */
 const CustomTableCell = withStyles(theme => ({
   head: {
     backgroundColor: theme.palette.common.black,
@@ -22,8 +24,12 @@ const CustomTableCell = withStyles(theme => ({
 }))(TableCell)
 
 /* :: object[] -> boolean */
-const isTxLoading = txs => txs.some(({ loading }) => loading)
+const isTxLoading = txs => txs.every(({ empty }) => empty)
 
+/* :: object -> boolean */
+const notEmpty = ({ empty }) => !empty
+
+/* :: object -> React.Node */
 const HomeView = ({ blocks, transactions, classes }) => (
   <Fragment>
     {/** Transactions */}
@@ -39,17 +45,24 @@ const HomeView = ({ blocks, transactions, classes }) => (
               <TableHead>
                 <TableRow>
                   <CustomTableCell>Block</CustomTableCell>
+                  <CustomTableCell></CustomTableCell>
                   <CustomTableCell>Transaction</CustomTableCell>
                 </TableRow>
               </TableHead>
 
               <TableBody>
-                {transactions.map(tx => (
+                {transactions.filter(notEmpty).map(tx => (
                   <TableRow className={classes.row} key={tx.hash}>
                     <CustomTableCell>
                       <Link className={classes.link} to={`/blocks/${tx.blockNumber}`}>
                         {tx.blockNumber}
                       </Link>
+                    </CustomTableCell>
+                    <CustomTableCell>
+                      {isString(tx.contract)
+                        ? <span>{tx.contract}.{tx.method}( )</span>
+                        : ''
+                      }
                     </CustomTableCell>
                     <CustomTableCell>
                       <Link className={classes.link} to={`/transactions/${tx.hash}`}>
