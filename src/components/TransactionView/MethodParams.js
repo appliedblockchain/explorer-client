@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { isEmpty } from 'lodash'
 import Text from '@material-ui/core/Typography'
 import Table from '@material-ui/core/Table'
 import TableHead from '@material-ui/core/TableHead'
@@ -43,35 +44,39 @@ const MethodParams = ({ classes, tx }) => {
         </Text>
       </div>
 
-      <Paper>
-        <Table className={classes.table}>
-          <TableHead>
-            <TableRow>
-              <TableCell className={classes.param}>Param</TableCell>
-              <TableCell className={classes.param}>Type</TableCell>
-              <TableCell className={classes.paramValue}>Value</TableCell>
-            </TableRow>
-          </TableHead>
+      {
+        !isEmpty(tx.params) && (
+          <Paper>
+            <Table className={classes.table}>
+              <TableHead>
+                <TableRow>
+                  <TableCell className={classes.param}>Param</TableCell>
+                  <TableCell className={classes.param}>Type</TableCell>
+                  <TableCell className={classes.paramValue}>Value</TableCell>
+                </TableRow>
+              </TableHead>
 
-          <TableBody>
-            {tx.params.map(param => (
-              <TableRow key={param.name}>
-                <TableCell className={classes.param}>
-                  {param.name}
-                </TableCell>
-                <TableCell className={classes.param}>
-                  {param.type}
-                </TableCell>
-                <TableCell className={classes.paramValueWrap}>
-                  <span className={classes.paramValue}>
-                    {String(param.value)}
-                  </span>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </Paper>
+              <TableBody>
+                {tx.params.map(param => (
+                  <TableRow key={param.name}>
+                    <TableCell className={classes.param}>
+                      {param.name}
+                    </TableCell>
+                    <TableCell className={classes.param}>
+                      {param.type}
+                    </TableCell>
+                    <TableCell className={classes.paramValueWrap}>
+                      <span className={classes.paramValue}>
+                        {String(param.value)}
+                      </span>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </Paper>
+        )
+      }
     </section>
   )
 }
