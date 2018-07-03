@@ -1,104 +1,21 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { isString, isInteger } from 'lodash'
 import { withStyles } from '@material-ui/core/styles'
 import Text from '@material-ui/core/Typography'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
-import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
-import Tooltip from '@material-ui/core/Tooltip'
 import { Link } from 'react-router-dom'
-import moment from 'moment'
+import LatestTransactions from './LatestTransactions'
+import CustomTableCell from './CustomTableCell'
 import { styles } from './style'
-
-/* :: object -> React.Node */
-const CustomTableCell = withStyles(theme => ({
-  head: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white
-  },
-  body: {
-    fontSize: 14
-  }
-}))(TableCell)
-
-/* :: object[] -> boolean */
-const isTxLoading = txs => txs.every(({ empty }) => empty)
-
-/* :: object -> boolean */
-const notEmpty = ({ empty }) => !empty
-
-/* :: object -> string */
-const getTimestamp = ({ timestamp }) => {
-  if (!isInteger(timestamp)) {
-    return '––'
-  }
-
-  return moment(timestamp * 1000).fromNow()
-}
 
 /* :: object -> React.Node */
 const HomeView = ({ blocks, transactions, classes }) => (
   <Fragment>
-    {/** Transactions */}
-    <section className={classes.section}>
-      <Text variant="title" className={classes.title}>
-        Latest Transactions {isTxLoading(transactions) && '(syncing)'}
-      </Text>
-
-      {
-        !isTxLoading(transactions) && (
-          <Paper className={classes.root}>
-            <Table className={classes.table}>
-              <TableHead>
-                <TableRow>
-                  <CustomTableCell>Block</CustomTableCell>
-                  <CustomTableCell style={{ paddingRight: 0, paddingLeft: 0 }}>
-                  </CustomTableCell>
-                  <CustomTableCell>Transaction</CustomTableCell>
-                </TableRow>
-              </TableHead>
-
-              <TableBody>
-                {transactions.filter(notEmpty).map(tx => (
-                  <TableRow className={classes.row} key={tx.hash}>
-                    <CustomTableCell>
-                      <Tooltip title={getTimestamp(tx)}>
-                        <Link className={classes.link} to={`/blocks/${tx.blockNumber}`}>
-                          {tx.blockNumber}
-                        </Link>
-                      </Tooltip>
-                    </CustomTableCell>
-
-                    {/* Contract.method() */}
-                    <CustomTableCell style={{ paddingRight: 0, paddingLeft: 0 }}>
-                      {isString(tx.contract)
-                        ? (
-                          <span className={classes.contractName}>
-                            {tx.contract}<span className={classes.contractMethod}>.{tx.method}()</span>
-                          </span>
-                        )
-                        : ''
-                      }
-                    </CustomTableCell>
-                    <CustomTableCell>
-                      <Tooltip title={getTimestamp(tx)}>
-                        <Link className={classes.link} to={`/transactions/${tx.hash}`}>
-                          <span className={classes.mono}>{tx.hash}</span>
-                        </Link>
-                      </Tooltip>
-                    </CustomTableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </Paper>
-        )
-      }
-    </section>
+    <LatestTransactions transactions={transactions} />
 
     {/** Blocks */}
     <section className={classes.section}>
