@@ -8,13 +8,14 @@ import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
-import style from './style.module.scss'
+import { withStyles } from '@material-ui/core/styles'
+import { styles } from './style'
 
-const BlockView = ({ info }) => (
+const BlockView = ({ info, classes }) => (
   <Fragment>
     {/** BLOCK INFORMATION */}
-    <section className={style.blockInfo}>
-      <div className={style.blockTitle}>
+    <section className={classes.blockInfo}>
+      <div className={classes.blockTitle}>
         <Text variant="title">
           Block #{info.number}
         </Text>
@@ -35,7 +36,7 @@ const BlockView = ({ info }) => (
             <TableRow>
               <TableCell component="th" scope="row">Miner</TableCell>
               <TableCell>
-                <span className={style.mono}>{info.miner}</span>
+                <span className={classes.mono}>{info.miner}</span>
               </TableCell>
             </TableRow>
 
@@ -43,7 +44,7 @@ const BlockView = ({ info }) => (
             <TableRow>
               <TableCell component="th" scope="row">Parent Hash</TableCell>
               <TableCell>
-                <span className={style.mono}>{info.parentHash}</span>
+                <span className={classes.mono}>{info.parentHash}</span>
               </TableCell>
             </TableRow>
 
@@ -64,8 +65,8 @@ const BlockView = ({ info }) => (
     </section>
 
     {/** BLOCK TRANSACTIONS */}
-    <section className={style.blockInfo}>
-      <div className={style.blockTitle}>
+    <section className={classes.blockInfo}>
+      <div className={classes.blockTitle}>
         <Text variant="title">
           Transactions for Block #{info.number}
         </Text>
@@ -77,7 +78,7 @@ const BlockView = ({ info }) => (
             {info.transactions.map(tx => (
               <TableRow key={tx}>
                 <TableCell>
-                  <Link className={style.tx} to={`/transactions/${tx}`}>
+                  <Link className={classes.tx} to={`/transactions/${tx}`}>
                     {tx}
                   </Link>
                 </TableCell>
@@ -91,7 +92,8 @@ const BlockView = ({ info }) => (
 )
 
 BlockView.propTypes = {
-  info: PropTypes.object.isRequired
+  info: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired
 }
 
-export default BlockView
+export default withStyles(styles)(BlockView)

@@ -9,9 +9,10 @@ import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
 import { withStyles } from '@material-ui/core/styles'
 import TableCell from './TableCell'
-import style from './style.module.scss'
+import { styles as commonStyles } from './style'
 
 const styles = {
+  ...commonStyles,
   table: {
     width: '100%',
     tableLayout: 'fixed'
@@ -37,10 +38,10 @@ const MethodParams = ({ classes, tx }) => {
   }
 
   return (
-    <section className={style.root}>
-      <div className={style.title}>
+    <section className={classes.root}>
+      <div className={classes.title}>
         <Text variant="title">
-          <span className={style.methodName}>{tx.method}( )</span>
+          <span className={classes.methodName}>{tx.method}( )</span>
         </Text>
       </div>
 

@@ -6,14 +6,15 @@ import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
+import { withStyles } from '@material-ui/core/styles'
 import { Link } from 'react-router-dom'
 import { has } from 'lodash'
 import moment from 'moment'
-import style from './style.module.scss'
+import { styles } from './style'
 
-const TransactionInfo = ({ tx }) => (
-  <section className={style.root}>
-    <div className={style.title}>
+const TransactionInfo = ({ tx, classes }) => (
+  <section className={classes.root}>
+    <div className={classes.title}>
       <Text variant="title">Transaction Info</Text>
     </div>
 
@@ -24,7 +25,7 @@ const TransactionInfo = ({ tx }) => (
           <TableRow>
             <TableCell component="th" scope="row">From</TableCell>
             <TableCell>
-              <span className={style.mono}>{tx.from}</span>
+              <span className={classes.mono}>{tx.from}</span>
             </TableCell>
           </TableRow>
 
@@ -33,7 +34,7 @@ const TransactionInfo = ({ tx }) => (
             <TableCell component="th" scope="row">To</TableCell>
             <TableCell>
               {tx.enhanced && <span>{tx.toName}—</span>}
-              <span className={style.mono}>{tx.to}</span>
+              <span className={classes.mono}>{tx.to}</span>
             </TableCell>
           </TableRow>
 
@@ -41,7 +42,7 @@ const TransactionInfo = ({ tx }) => (
           <TableRow>
             <TableCell component="th" scope="row">Block</TableCell>
             <TableCell>
-              <Link className={style.link} to={`/blocks/${tx.blockNumber}`}>
+              <Link className={classes.link} to={`/blocks/${tx.blockNumber}`}>
                 {tx.blockNumber}
               </Link>
             </TableCell>
@@ -81,7 +82,7 @@ const TransactionInfo = ({ tx }) => (
           <TableRow>
             <TableCell component="th" scope="row">Data</TableCell>
             <TableCell>
-              <span className={style.data}>{tx.input}</span>
+              <span className={classes.data}>{tx.input}</span>
             </TableCell>
           </TableRow>
 
@@ -97,7 +98,8 @@ const TransactionInfo = ({ tx }) => (
 )
 
 TransactionInfo.propTypes = {
-  tx: PropTypes.object.isRequired
+  tx: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired
 }
 
-export default TransactionInfo
+export default withStyles(styles)(TransactionInfo)

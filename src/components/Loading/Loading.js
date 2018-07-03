@@ -1,12 +1,13 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
+import { withStyles } from '@material-ui/core/styles'
 import { Main } from '../../components'
-import style from './style.module.scss'
+import { styles } from './style'
 
-const Loading = ({ navbar: Navbar, history }) => (
+const Loading = ({ navbar: Navbar, history, classes }) => (
   <Fragment>
     <Navbar history={history} />
-    <Main className={style.main}>
+    <Main className={classes.main}>
       <svg
         version="1.1"
         xmlns="http://www.w3.org/2000/svg"
@@ -35,7 +36,8 @@ const Loading = ({ navbar: Navbar, history }) => (
 
 Loading.propTypes = {
   navbar: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired
+  history: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired
 }
 
-export default Loading
+export default withStyles(styles)(Loading)

@@ -1,20 +1,22 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import style from './style.module.scss'
+import { withStyles } from '@material-ui/core/styles'
+import { styles } from './style'
 
-const Main = ({ className, children }) => (
-  <main className={`${style.root} ${className}`}>
+const Main = ({ className, children, classes }) => (
+  <main className={`${classes.root} ${className}`}>
     {children}
   </main>
 )
 
 Main.propTypes = {
   className: PropTypes.string,
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
+  classes: PropTypes.object.isRequired
 }
 
 Main.defaultProps = {
   className: ''
 }
 
-export default Main
+export default withStyles(styles)(Main)

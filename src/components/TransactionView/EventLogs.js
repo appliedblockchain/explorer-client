@@ -17,9 +17,14 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
 import { withStyles } from '@material-ui/core/styles'
 import CustomTableCell from './TableCell'
-import style from './style.module.scss'
 
 const styles = {
+  root: {
+    marginBottom: '3.5rem'
+  },
+  title: {
+    marginBottom: '1rem'
+  },
   table: {
     width: '100%',
     tableLayout: 'fixed'
@@ -51,8 +56,8 @@ const EventLogs = ({ classes, tx }) => {
   }
 
   return (
-    <section className={style.root}>
-      <div className={style.title}>
+    <section className={classes.root}>
+      <div className={classes.title}>
         <Text variant="title">Event Logs</Text>
       </div>
 
