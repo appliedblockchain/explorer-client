@@ -7,6 +7,8 @@ import TableCell from '@material-ui/core/TableCell'
 import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
 import { Link } from 'react-router-dom'
+import { has } from 'lodash'
+import moment from 'moment'
 import style from './style.module.scss'
 
 const TransactionInfo = ({ tx }) => (
@@ -44,6 +46,18 @@ const TransactionInfo = ({ tx }) => (
               </Link>
             </TableCell>
           </TableRow>
+
+          {/** Timestamp */}
+          {
+            has(tx, 'timestamp') && (
+              <TableRow>
+                <TableCell component="th" scope="row">Timestamp</TableCell>
+                <TableCell>
+                  {moment(tx.timestamp * 1000).fromNow()} ( {moment(tx.timestamp * 1000).format('MMMM Do YYYY, h:mm:ss a')} )
+                </TableCell>
+              </TableRow>
+            )
+          }
 
           {/** Gas Price */}
           <TableRow>
