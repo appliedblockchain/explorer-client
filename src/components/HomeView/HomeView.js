@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { isString } from 'lodash'
+import { isString, isInteger } from 'lodash'
 import { withStyles } from '@material-ui/core/styles'
 import Text from '@material-ui/core/Typography'
 import Table from '@material-ui/core/Table'
@@ -9,7 +9,9 @@ import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
+import Tooltip from '@material-ui/core/Tooltip'
 import { Link } from 'react-router-dom'
+import moment from 'moment'
 import { styles } from './style'
 
 /* :: object -> React.Node */
@@ -28,6 +30,15 @@ const isTxLoading = txs => txs.every(({ empty }) => empty)
 
 /* :: object -> boolean */
 const notEmpty = ({ empty }) => !empty
+
+/* :: object -> string */
+const getTimestamp = ({ timestamp }) => {
+  if (!isInteger(timestamp)) {
+    return '––'
+  }
+
+  return moment(timestamp * 1000).fromNow()
+}
 
 /* :: object -> React.Node */
 const HomeView = ({ blocks, transactions, classes }) => (
@@ -55,9 +66,11 @@ const HomeView = ({ blocks, transactions, classes }) => (
                 {transactions.filter(notEmpty).map(tx => (
                   <TableRow className={classes.row} key={tx.hash}>
                     <CustomTableCell>
-                      <Link className={classes.link} to={`/blocks/${tx.blockNumber}`}>
-                        {tx.blockNumber}
-                      </Link>
+                      <Tooltip title={getTimestamp(tx)}>
+                        <Link className={classes.link} to={`/blocks/${tx.blockNumber}`}>
+                          {tx.blockNumber}
+                        </Link>
+                      </Tooltip>
                     </CustomTableCell>
 
                     {/* Contract.method() */}
@@ -72,9 +85,11 @@ const HomeView = ({ blocks, transactions, classes }) => (
                       }
                     </CustomTableCell>
                     <CustomTableCell>
-                      <Link className={classes.link} to={`/transactions/${tx.hash}`}>
-                        <span className={classes.mono}>{tx.hash}</span>
-                      </Link>
+                      <Tooltip title={getTimestamp(tx)}>
+                        <Link className={classes.link} to={`/transactions/${tx.hash}`}>
+                          <span className={classes.mono}>{tx.hash}</span>
+                        </Link>
+                      </Tooltip>
                     </CustomTableCell>
                   </TableRow>
                 ))}
