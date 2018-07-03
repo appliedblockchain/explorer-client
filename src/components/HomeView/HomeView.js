@@ -45,7 +45,8 @@ const HomeView = ({ blocks, transactions, classes }) => (
               <TableHead>
                 <TableRow>
                   <CustomTableCell>Block</CustomTableCell>
-                  <CustomTableCell></CustomTableCell>
+                  <CustomTableCell style={{ paddingRight: 0, paddingLeft: 0 }}>
+                  </CustomTableCell>
                   <CustomTableCell>Transaction</CustomTableCell>
                 </TableRow>
               </TableHead>
@@ -58,9 +59,15 @@ const HomeView = ({ blocks, transactions, classes }) => (
                         {tx.blockNumber}
                       </Link>
                     </CustomTableCell>
-                    <CustomTableCell>
+
+                    {/* Contract.method() */}
+                    <CustomTableCell style={{ paddingRight: 0, paddingLeft: 0 }}>
                       {isString(tx.contract)
-                        ? <span>{tx.contract}.{tx.method}( )</span>
+                        ? (
+                          <span className={classes.contractName}>
+                            {tx.contract}<span className={classes.contractMethod}>.{tx.method}()</span>
+                          </span>
+                        )
                         : ''
                       }
                     </CustomTableCell>

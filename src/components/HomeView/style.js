@@ -24,5 +24,16 @@ export const styles = theme => ({
   },
   mono: {
     fontFamily: 'menlo, monospace'
+  },
+  contractName: {
+    whiteSpace: 'nowrap',
+    fontFamily: 'menlo, monospace',
+    background: '#00897B',
+    padding: '5.5px 15px',
+    borderRadius: '150px',
+    color: '#fff'
+  },
+  contractMethod: {
+    fontWeight: 'bold'
   }
 })
