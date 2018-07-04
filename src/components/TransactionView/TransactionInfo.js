@@ -21,6 +21,14 @@ const TransactionInfo = ({ tx, classes }) => (
     <Paper>
       <Table>
         <TableBody>
+          {/** Tx Hash */}
+          <TableRow>
+            <TableCell component="th" scope="row">Hash</TableCell>
+            <TableCell>
+              <span className={classes.mono}>{tx.hash}</span>
+            </TableCell>
+          </TableRow>
+
           {/** From address */}
           <TableRow>
             <TableCell component="th" scope="row">From</TableCell>
