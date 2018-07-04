@@ -41,7 +41,7 @@ export const createHome = (HomeView, Navbar) => {
         transactions
       ] = await Promise.all([
         api.getLatestBlocks(),
-        api.getLatestTransactions()
+        api.getLatestTransactions(100)
       ])
 
       this.setState({ blocks, transactions })

@@ -10,6 +10,7 @@ import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
 import Tooltip from '@material-ui/core/Tooltip'
 import RootRef from '@material-ui/core/RootRef'
+import TablePagination from '@material-ui/core/TablePagination'
 import { Link } from 'react-router-dom'
 import moment from 'moment'
 import CustomTableCell from './CustomTableCell'
@@ -35,7 +36,9 @@ const getTimestamp = ({ timestamp }) => {
 class LatestTransactions extends Component {
   state = {
     heading1Width: null,
-    heading2Width: null
+    heading2Width: null,
+    rowsPerPage: 10,
+    page: 0
   }
 
   componentDidMount() {
@@ -50,8 +53,16 @@ class LatestTransactions extends Component {
   heading1 = React.createRef()
   heading2 = React.createRef()
 
+  handleChangePage = (event, page) => {
+    this.setState({ page })
+  }
+
+  handleChangeRowsPerPage = (event) => {
+    this.setState({ rowsPerPage: event.target.value })
+  }
+
   render() {
-    const { heading1Width, heading2Width } = this.state
+    const { heading1Width, heading2Width, rowsPerPage, page } = this.state
     const { classes, transactions } = this.props
     const cellXPadding = 2 * 24
 
@@ -65,6 +76,12 @@ class LatestTransactions extends Component {
         ? MAIN_WIDTH - heading1Width - heading2Width - cellXPadding - 1
         : '100%'
     }
+
+    const txs = transactions.filter(notEmpty)
+    const displayTxs = txs.slice(
+      page * rowsPerPage,
+      (page * rowsPerPage) + rowsPerPage
+    )
 
     return (
       <section className={classes.section}>
@@ -90,7 +107,7 @@ class LatestTransactions extends Component {
                 </TableHead>
 
                 <TableBody>
-                  {transactions.filter(notEmpty).map(tx => (
+                  {displayTxs.map(tx => (
                     <TableRow className={classes.row} key={tx.hash}>
                       <CustomTableCell>
                         <Tooltip title={getTimestamp(tx)}>
@@ -122,6 +139,16 @@ class LatestTransactions extends Component {
                   ))}
                 </TableBody>
               </Table>
+              <TablePagination
+                component="div"
+                count={txs.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                backIconButtonProps={{ 'aria-label': 'Previous Page' }}
+                nextIconButtonProps={{ 'aria-label': 'Next Page' }}
+                onChangePage={this.handleChangePage}
+                onChangeRowsPerPage={this.handleChangeRowsPerPage}
+              />
             </Paper>
           )
         }
