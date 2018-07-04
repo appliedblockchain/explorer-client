@@ -53,7 +53,7 @@ const MethodParams = ({ classes, tx }) => {
                 <TableRow>
                   <TableCell className={classes.param}>Param</TableCell>
                   <TableCell className={classes.param}>Type</TableCell>
-                  <TableCell className={classes.paramValue}>Value</TableCell>
+                  <TableCell className={classes.paramValueWrap}>Value</TableCell>
                 </TableRow>
               </TableHead>
 
