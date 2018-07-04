@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { isNull, isEmpty } from 'lodash'
+import { isNull, isEmpty, isObject } from 'lodash'
 import { unprefixHex } from '@appliedblockchain/bdash'
 import { Main, Loading } from '../components'
 import * as api from '../api'
@@ -17,7 +17,12 @@ export const createTransaction = (TransactionView, Navbar) => {
     }
 
     componentDidUpdate() {
-      this.getTransaction()
+      const { match } = this.props
+      const { transaction: tx } = this.state
+
+      if (isObject(tx) && tx.hash !== match.params.txhash) {
+        this.getTransaction()
+      }
     }
 
     async getTransaction() {

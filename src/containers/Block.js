@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import isNull from 'lodash/isNull'
+import { isNull, isObject } from 'lodash'
 import { Main, Loading } from '../components'
 import * as api from '../api'
 
@@ -16,11 +16,19 @@ export const createBlock = (BlockView, Navbar) => {
     }
 
     componentDidUpdate() {
-      this.getBlock()
+      const { block } = this.state
+
+      if (isObject(block) && block.number !== this.getUrlBlockNumber()) {
+        this.getBlock()
+      }
+    }
+
+    getUrlBlockNumber() {
+      return parseInt(this.props.match.params.number, 10)
     }
 
     async getBlock() {
-      const blockNumber = parseInt(this.props.match.params.number, 10)
+      const blockNumber = this.getUrlBlockNumber()
       const block = await api.getBlock(blockNumber)
 
       /** Take them to the 404 page as block does not exist */
