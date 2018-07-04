@@ -41,12 +41,16 @@ const BlockView = ({ info, classes }) => (
             </TableRow>
 
             {/** Parent Hash */}
-            <TableRow>
-              <TableCell component="th" scope="row">Parent Hash</TableCell>
-              <TableCell>
-                <span className={classes.mono}>{info.parentHash}</span>
-              </TableCell>
-            </TableRow>
+            {info.number > 0 && (
+              <TableRow>
+                <TableCell component="th" scope="row">Parent Hash</TableCell>
+                <TableCell>
+                  <Link className={classes.link} to={`/blocks/${info.number - 1}`}>
+                    <span className={classes.mono}>{info.parentHash}</span>
+                  </Link>
+                </TableCell>
+              </TableRow>
+            )}
 
             {/** Size */}
             <TableRow>
@@ -65,29 +69,34 @@ const BlockView = ({ info, classes }) => (
     </section>
 
     {/** BLOCK TRANSACTIONS */}
-    <section className={classes.blockInfo}>
-      <div className={classes.blockTitle}>
-        <Text variant="title">
-          Transactions for Block #{info.number}
-        </Text>
-      </div>
+    {info.transactions.length > 0 && (
+      <section className={classes.blockInfo}>
+        <div className={classes.blockTitle}>
+          <Text variant="title">
+            Transactions for Block #{info.number}
+          </Text>
+        </div>
 
-      <Paper>
-        <Table>
-          <TableBody>
-            {info.transactions.map(tx => (
-              <TableRow key={tx}>
-                <TableCell>
-                  <Link className={classes.tx} to={`/transactions/${tx}`}>
-                    {tx}
-                  </Link>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </Paper>
-    </section>
+        <Paper>
+          <Table>
+            <TableBody>
+              {info.transactions.map(tx => (
+                <TableRow key={tx}>
+                  <TableCell>
+                    <Link
+                      className={`${classes.link} ${classes.mono}`}
+                      to={`/transactions/${tx}`}
+                    >
+                      {tx}
+                    </Link>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </Paper>
+      </section>
+    )}
   </Fragment>
 )
 

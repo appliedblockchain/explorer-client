@@ -8,8 +8,7 @@ export const styles = {
   mono: {
     fontFamily: 'menlo, "Courier New", Courier, monospace'
   },
-  tx: {
-    fontFamily: 'menlo, "Courier New", Courier, monospace',
+  link: {
     textDecoration: 'none',
     color: '#d02d52',
     '&:hover': { textDecoration: 'underline' },
