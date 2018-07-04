@@ -32,7 +32,15 @@ const getLatestTransactions = async (limit = 10) => {
   return transactions
 }
 
+/* :: string -> Promise<object> */
+const search = async (query) => {
+  const response = await axios.get(`/api/v1/search?q=${query}`)
+
+  return response.data
+}
+
 export {
+  search,
   getBlock,
   getTransaction,
   getLatestBlocks,

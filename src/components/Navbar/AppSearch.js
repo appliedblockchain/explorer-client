@@ -3,31 +3,7 @@ import PropTypes from 'prop-types'
 import SearchIcon from '@material-ui/icons/Search'
 import { fade } from '@material-ui/core/styles/colorManipulator'
 import { withStyles } from '@material-ui/core/styles'
-import { isString } from 'lodash'
-import { isUnprefixedHex, isPrefixedHex, prefixHex } from '@appliedblockchain/bdash'
-
-/* any -> boolean */
-const isTxHash = val => {
-  if (!isString(val)) {
-    return false
-  }
-
-  switch (val.length) {
-    case 64:
-      return isUnprefixedHex(val)
-    case 66:
-      return isPrefixedHex(val)
-    default:
-      return false
-  }
-}
-
-/* string -> boolean */
-const strIsInt = str => {
-  const p = parseInt(str, 10)
-
-  return !Number.isNaN(p) && String(p).length === str.length
-}
+import * as api from '../../api'
 
 const styles = theme => ({
   root: {
@@ -79,22 +55,25 @@ class AppSearch extends Component {
     value: ''
   }
 
-  handleSubmit = (e) => {
+  handleSubmit = async (e) => {
     e.preventDefault()
 
-    const { history } = this.props
-    const value = this.state.value.trim()
-
-    if (isTxHash(value)) {
-      const txHash = isPrefixedHex(value) ? value : prefixHex(value)
-      history.push(`/transactions/${txHash}`)
-    } else if (strIsInt(value)) {
-      history.push(`/blocks/${value}`)
-    } else {
-      alert('Search only supports block numbers and transaction hash\'s')
-    }
-
+    const query = this.state.value.trim()
     this.setState({ value: '' })
+
+    const { history } = this.props
+    const { result } = await api.search(query)
+
+    switch (result.type) {
+      case 'block':
+        history.push(`/blocks/${result.value}`)
+        break
+      case 'tx':
+        history.push(`/transactions/${result.value}`)
+        break
+      default:
+        history.push('/')
+    }
   }
 
   render() {
