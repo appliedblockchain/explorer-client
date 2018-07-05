@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import isNull from 'lodash/isNull'
-import { Main, Loading } from '../components'
+import { Main, Loading, ErrorView } from '../components'
 import * as api from '../api'
 
 /* :: (Function, Function) -> Home */
@@ -9,7 +9,8 @@ export const createHome = (HomeView, Navbar) => {
   class Home extends Component {
     state = {
       blocks: null,
-      transactions: null
+      transactions: null,
+      error: null
     }
 
     componentDidMount() {
@@ -44,20 +45,34 @@ export const createHome = (HomeView, Navbar) => {
     }
 
     async getData() {
-      const [
-        blocks,
-        transactions
-      ] = await Promise.all([
-        api.getLatestBlocks(),
-        api.getLatestTransactions(100)
-      ])
+      try {
+        const [
+          blocks,
+          transactions
+        ] = await Promise.all([
+          api.getLatestBlocks(),
+          api.getLatestTransactions(100)
+        ])
 
-      this.setState({ blocks, transactions })
+        this.setState({ blocks, transactions, error: null })
+      } catch (e) {
+        const { status, statusText } = e.response
+
+        if (this.isLoading()) {
+          const error = {
+            status,
+            statusText,
+            message: e.response.data.error
+          }
+
+          this.setState({ error, blocks: [], transactions: [] })
+        }
+      }
     }
 
     render() {
       const { history } = this.props
-      const { blocks, transactions } = this.state
+      const { blocks, transactions, error } = this.state
 
       if (this.isLoading()) {
         return <Loading navbar={Navbar} history={history} />
@@ -67,7 +82,10 @@ export const createHome = (HomeView, Navbar) => {
         <Fragment>
           <Navbar history={history} />
           <Main>
-            <HomeView blocks={blocks} transactions={transactions} />
+            {error
+              ? <ErrorView error={error} />
+              : <HomeView blocks={blocks} transactions={transactions} />
+            }
           </Main>
         </Fragment>
       )
