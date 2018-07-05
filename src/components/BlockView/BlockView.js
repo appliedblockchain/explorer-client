@@ -24,6 +24,14 @@ const BlockView = ({ info, classes }) => (
       <Paper>
         <Table>
           <TableBody>
+            {/* Hash */}
+            <TableRow>
+              <TableCell component="th" scope="row">Hash</TableCell>
+              <TableCell>
+                <span className={classes.mono}>{info.hash}</span>
+              </TableCell>
+            </TableRow>
+
             {/** Block created */}
             <TableRow>
               <TableCell component="th" scope="row">Created</TableCell>
