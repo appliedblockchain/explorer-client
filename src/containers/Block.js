@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { isNull, isObject } from 'lodash'
-import { Main, Loading } from '../components'
+import { Main, Loading, ErrorView } from '../components'
 import * as api from '../api'
 
 /* :: Function -> Function */
@@ -16,9 +16,9 @@ export const createBlock = (BlockView, Navbar) => {
     }
 
     componentDidUpdate() {
-      const { block } = this.state
+      const { block, error } = this.state
 
-      if (isObject(block) && block.number !== this.getUrlBlockNumber()) {
+      if (!error && isObject(block) && block.number !== this.getUrlBlockNumber()) {
         this.getBlock()
       }
     }
@@ -29,18 +29,30 @@ export const createBlock = (BlockView, Navbar) => {
 
     async getBlock() {
       const blockNumber = this.getUrlBlockNumber()
-      const block = await api.getBlock(blockNumber)
 
-      /** Take them to the 404 page as block does not exist */
-      if (isNull(block)) {
-        this.props.history.push('/block-not-found')
+      try {
+        const block = await api.getBlock(blockNumber)
+
+        /** Take them to the 404 page as block does not exist */
+        if (isNull(block)) {
+          this.props.history.push('/block-not-found')
+        }
+
+        this.setState({ block, error: null })
+      } catch (e) {
+        const { status, statusText } = e.response
+        const error = {
+          status,
+          statusText,
+          message: e.response.data.error
+        }
+
+        this.setState({ error, block: {} })
       }
-
-      this.setState({ block })
     }
 
     render() {
-      const { block } = this.state
+      const { block, error } = this.state
       const { history } = this.props
 
       if (isNull(block)) {
@@ -51,7 +63,10 @@ export const createBlock = (BlockView, Navbar) => {
         <Fragment>
           <Navbar history={history} />
           <Main>
-            <BlockView info={block} />
+            {error
+              ? <ErrorView error={error} />
+              : <BlockView info={block} />
+            }
           </Main>
         </Fragment>
       )

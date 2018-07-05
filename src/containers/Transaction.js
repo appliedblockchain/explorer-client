@@ -2,14 +2,15 @@ import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { isNull, isEmpty, isObject } from 'lodash'
 import { unprefixHex } from '@appliedblockchain/bdash'
-import { Main, Loading } from '../components'
+import { Main, Loading, ErrorView } from '../components'
 import * as api from '../api'
 
 /* :: Function -> Function */
 export const createTransaction = (TransactionView, Navbar) => {
   class Transaction extends Component {
     state = {
-      transaction: null
+      transaction: null,
+      error: null
     }
 
     componentDidMount() {
@@ -18,27 +19,39 @@ export const createTransaction = (TransactionView, Navbar) => {
 
     componentDidUpdate() {
       const { match } = this.props
-      const { transaction: tx } = this.state
+      const { transaction: tx, error } = this.state
 
-      if (isObject(tx) && tx.hash !== match.params.txhash) {
+      if (!error && isObject(tx) && tx.hash !== match.params.txhash) {
         this.getTransaction()
       }
     }
 
     async getTransaction() {
       const { txhash } = this.props.match.params
-      const transaction = await api.getTransaction(unprefixHex(txhash))
 
-      /** Take them to 404 page when tx does not exist */
-      if (isEmpty(transaction)) {
-        this.props.history.push('/tx-not-found')
+      try {
+        const transaction = await api.getTransaction(unprefixHex(txhash))
+
+        /** Take them to 404 page when tx does not exist */
+        if (isEmpty(transaction)) {
+          this.props.history.push('/tx-not-found')
+        }
+
+        this.setState({ transaction })
+      } catch (e) {
+        const { status, statusText } = e.response
+        const error = {
+          status,
+          statusText,
+          message: e.response.data.error
+        }
+
+        this.setState({ error, transaction: {} })
       }
-
-      this.setState({ transaction })
     }
 
     render() {
-      const { transaction } = this.state
+      const { transaction, error } = this.state
       const { history } = this.props
 
       if (isNull(transaction)) {
@@ -49,7 +62,10 @@ export const createTransaction = (TransactionView, Navbar) => {
         <Fragment>
           <Navbar history={history} />
           <Main>
-            <TransactionView info={transaction} />
+            {error
+              ? <ErrorView error={error} />
+              : <TransactionView info={transaction} />
+            }
           </Main>
         </Fragment>
       )
