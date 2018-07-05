@@ -47,7 +47,7 @@ ErrorView.propTypes = {
   error: PropTypes.shape({
     status: PropTypes.number.isRequired,
     statusText: PropTypes.string.isRequired,
-    message: PropTypes.string.isRequired
+    message: PropTypes.string
   }).isRequired,
   classes: PropTypes.object.isRequired
 }
