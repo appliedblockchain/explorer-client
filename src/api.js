@@ -40,9 +40,18 @@ const search = async (query) => {
   return result
 }
 
+/* :: string -> Promise<object> */
+const getNetworkInfo = async () => {
+  const response = await axios.get('/api/v1/network')
+  const { data: networkInfo } = response.data
+
+  return networkInfo
+}
+
 export {
   search,
   getBlock,
+  getNetworkInfo,
   getTransaction,
   getLatestBlocks,
   getLatestTransactions

@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { withStyles } from '@material-ui/core/styles'
 import { createHome } from './containers/Home'
 import { createBlock } from './containers/Block'
 import { createTransaction } from './containers/Transaction'
-import { HomeView, BlockView, TransactionView, Navbar, NotFound } from './components'
+import { HomeView, BlockView, TransactionView, Navbar, NotFound, Footer } from './components'
 
 const styles = {
   '@global': {
@@ -43,12 +43,15 @@ export const createApp = ({
 
   const App = () => (
     <Router>
-      <Switch>
-        <Route exact path="/" component={Home} />
-        <Route exact path="/blocks/:number" component={Block} />
-        <Route exact path="/transactions/:txhash" component={Transaction} />
-        <Route component={NotFound} />
-      </Switch>
+      <Fragment>
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route exact path="/blocks/:number" component={Block} />
+          <Route exact path="/transactions/:txhash" component={Transaction} />
+          <Route component={NotFound} />
+        </Switch>
+        <Footer />
+      </Fragment>
     </Router>
   )
 
