@@ -41,7 +41,7 @@ const TransactionInfo = ({ tx, classes }) => (
           <TableRow>
             <TableCell component="th" scope="row">To</TableCell>
             <TableCell>
-              {tx.enhanced && <span>{tx.toName}—</span>}
+              {tx.enhanced && <span>{tx.toName}{tx.to && '—'}</span>}
               <span className={classes.mono}>{tx.to}</span>
             </TableCell>
           </TableRow>
