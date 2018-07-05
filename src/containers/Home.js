@@ -17,8 +17,16 @@ export const createHome = (HomeView, Navbar) => {
       this.polling = setInterval(this.pollLatestData.bind(this), 3000)
     }
 
+    /**
+     @NOTE: The function that is being executed in interval calls setState. Once
+     the interval is cleared the function can run one more time calling setState
+     on a unmounted component.
+     */
+
     componentWillUnmount() {
       clearInterval(this.polling)
+
+      this.setState = () => {}
     }
 
     isLoading() {
