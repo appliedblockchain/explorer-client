@@ -1,10 +1,14 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
+import { isInteger } from 'lodash'
 import { withStyles } from '@material-ui/core/styles'
 import Text from '@material-ui/core/Typography'
 import LatestTransactions from './LatestTransactions'
 import LatestBlocksTable from './LatestBlocksTable'
 import { styles } from './style'
+
+/* object -> boolean */
+const exists = ({ number }) => isInteger(number)
 
 /* :: object -> React.Node */
 const HomeView = ({ blocks, transactions, classes }) => (
@@ -15,7 +19,7 @@ const HomeView = ({ blocks, transactions, classes }) => (
     {/** Blocks */}
     <section className={classes.section}>
       <Text variant="title" className={classes.title}>Latest Blocks</Text>
-      <LatestBlocksTable blocks={blocks} />
+      <LatestBlocksTable blocks={blocks.filter(exists)} />
     </section>
   </Fragment>
 )
