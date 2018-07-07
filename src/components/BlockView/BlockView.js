@@ -7,12 +7,21 @@ import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableRow from '@material-ui/core/TableRow'
+import Button from '@material-ui/core/Button'
 import Paper from '@material-ui/core/Paper'
 import { withStyles } from '@material-ui/core/styles'
 import { styles } from './style'
 
 const BlockView = ({ info, classes }) => (
   <Fragment>
+    <section className={classes.btnWrap}>
+      {info.number > 0
+        ? <Button variant="outlined" href={`/blocks/${info.number - 1}`}>Previous</Button>
+        : <Button variant="outlined" disabled>Previous</Button>
+      }
+      <Button variant="outlined" href={`/blocks/${info.number + 1}`}>Next</Button>
+    </section>
+
     {/** BLOCK INFORMATION */}
     <section className={classes.blockInfo}>
       <div className={classes.blockTitle}>

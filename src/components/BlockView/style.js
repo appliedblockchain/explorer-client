@@ -1,4 +1,9 @@
 export const styles = {
+  btnWrap: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    marginBottom: '2rem'
+  },
   blockInfo: {
     marginBottom: '3.5rem'
   },
