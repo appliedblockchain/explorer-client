@@ -100,11 +100,16 @@ const BlockView = ({ info, classes }) => (
               {info.transactions.map(tx => (
                 <TableRow key={tx}>
                   <TableCell>
+                    {tx.contract && (
+                      <span className={classes.contractName}>
+                        {`${tx.contract}.${tx.method}() `}
+                      </span>
+                    )}
                     <Link
                       className={`${classes.link} ${classes.mono}`}
                       to={`/transactions/${tx}`}
                     >
-                      {tx}
+                      {tx.hash}
                     </Link>
                   </TableCell>
                 </TableRow>

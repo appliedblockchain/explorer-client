@@ -18,5 +18,15 @@ export const styles = {
     color: '#d02d52',
     '&:hover': { textDecoration: 'underline' },
     '&:focus': { textDecoration: 'underline' }
+  },
+  contractName: {
+    display: 'inline-block',
+    marginRight: 10,
+    whiteSpace: 'nowrap',
+    fontFamily: 'menlo, monospace',
+    background: '#00897B',
+    padding: '5.5px 15px',
+    borderRadius: '150px',
+    color: '#fff'
   }
 }

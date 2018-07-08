@@ -55,8 +55,8 @@ class Footer extends Component {
       <footer className={classes.root}>
         {info && (
           <Fragment>
-            <Text variant="body2" className={classes.info}>Network ID: {info.networkId}</Text>
-            <Text variant="body2" className={classes.info}>Connected peers: {info.peerCount}</Text>
+            <Text variant="body1" className={classes.info}>Network ID: {info.networkId}</Text>
+            <Text variant="body1" className={classes.info}>Connected peers: {info.peerCount}</Text>
           </Fragment>
         )}
       </footer>
