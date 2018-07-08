@@ -19,17 +19,17 @@ const getTransaction = async (txHash) => {
 /* :: number -> Promise<object> */
 const getLatestBlocks = async (limit = 10) => {
   const response = await axios.get(`/api/v1/blocks?limit=${limit}`)
-  const { data: blocks } = response.data
+  const { data: blocks, isSynching } = response.data
 
-  return blocks
+  return { blocks, isSynching }
 }
 
 /* :: number -> Promise<object> */
 const getLatestTransactions = async (limit = 10) => {
   const response = await axios.get(`/api/v1/transactions?limit=${limit}`)
-  const { data: transactions } = response.data
+  const { data: transactions, isSynching } = response.data
 
-  return transactions
+  return { transactions, isSynching }
 }
 
 /* :: string -> Promise<object> */

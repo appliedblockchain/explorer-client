@@ -26,9 +26,6 @@ const getTimestamp = ({ timestamp }) => {
   return moment(timestamp * 1000).fromNow()
 }
 
-/* :: object -> boolean */
-const notEmpty = ({ empty }) => !empty
-
 class LatestTransactionsTable extends Component {
   state = {
     heading1Width: null,
@@ -74,8 +71,7 @@ class LatestTransactionsTable extends Component {
         : '100%'
     }
 
-    const txs = transactions.filter(notEmpty)
-    const displayTxs = txs.slice(
+    const displayTxs = transactions.slice(
       page * rowsPerPage,
       (page * rowsPerPage) + rowsPerPage
     )
@@ -131,7 +127,7 @@ class LatestTransactionsTable extends Component {
         </Table>
         <TablePagination
           component="div"
-          count={txs.length}
+          count={transactions.length}
           rowsPerPage={rowsPerPage}
           page={page}
           backIconButtonProps={{ 'aria-label': 'Previous Page' }}

@@ -1,20 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { isEmpty } from 'lodash'
 import { withStyles } from '@material-ui/core/styles'
 import Text from '@material-ui/core/Typography'
-import { styles } from './style'
 import LatestTransactionsTable from './LatestTransactionsTable'
+import { styles } from './style'
 
-/* :: object[] -> boolean */
-const isTxLoading = txs => txs.every(({ empty }) => empty)
-
-const LatestTransactions = ({ classes, transactions }) => (
+const LatestTransactions = ({ transactions, synching, classes }) => (
   <section className={classes.section}>
     <Text variant="title" className={classes.title}>
-      Latest Transactions {isTxLoading(transactions) && '(syncing)'}
+      Latest Transactions {synching && '(synching)'}
     </Text>
 
-    {!isTxLoading(transactions) &&
+    {!isEmpty(transactions) &&
       <LatestTransactionsTable transactions={transactions} />
     }
   </section>
@@ -22,7 +20,8 @@ const LatestTransactions = ({ classes, transactions }) => (
 
 LatestTransactions.propTypes = {
   classes: PropTypes.object.isRequired,
-  transactions: PropTypes.array.isRequired
+  transactions: PropTypes.array.isRequired,
+  synching: PropTypes.bool.isRequired
 }
 
 export default withStyles(styles)(LatestTransactions)

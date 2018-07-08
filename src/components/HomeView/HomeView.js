@@ -1,33 +1,33 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { isInteger } from 'lodash'
-import { withStyles } from '@material-ui/core/styles'
-import Text from '@material-ui/core/Typography'
 import LatestTransactions from './LatestTransactions'
-import LatestBlocksTable from './LatestBlocksTable'
-import { styles } from './style'
-
-/* object -> boolean */
-const exists = ({ number }) => isInteger(number)
+import LatestBlocks from './LatestBlocks'
 
 /* :: object -> React.Node */
-const HomeView = ({ blocks, transactions, classes }) => (
+const HomeView = ({
+  blocks,
+  blocksIsSynching,
+  transactions,
+  transactionsIsSynching
+}) => (
   <Fragment>
-    {/** Transactions */}
-    <LatestTransactions transactions={transactions} />
+    <LatestTransactions
+      transactions={transactions}
+      synching={transactionsIsSynching}
+    />
 
-    {/** Blocks */}
-    <section className={classes.section}>
-      <Text variant="title" className={classes.title}>Latest Blocks</Text>
-      <LatestBlocksTable blocks={blocks.filter(exists)} />
-    </section>
+    <LatestBlocks
+      blocks={blocks}
+      synching={blocksIsSynching}
+    />
   </Fragment>
 )
 
 HomeView.propTypes = {
   blocks: PropTypes.array.isRequired,
+  blocksIsSynching: PropTypes.bool.isRequired,
   transactions: PropTypes.array.isRequired,
-  classes: PropTypes.object.isRequired
+  transactionsIsSynching: PropTypes.bool.isRequired
 }
 
-export default withStyles(styles)(HomeView)
+export default HomeView

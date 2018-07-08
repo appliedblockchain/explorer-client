@@ -9,7 +9,9 @@ export const createHome = (HomeView, Navbar) => {
   class Home extends Component {
     state = {
       blocks: null,
+      blocksIsSynching: null,
       transactions: null,
+      transactionsIsSynching: null,
       error: null
     }
 
@@ -30,18 +32,25 @@ export const createHome = (HomeView, Navbar) => {
       this.setState = () => {}
     }
 
-    isLoading() {
+    isLoadingInitial() {
       const { blocks, transactions } = this.state
 
       return isNull(blocks) || isNull(transactions)
     }
 
     pollLatestData() {
-      if (this.isLoading()) {
+      if (this.isLoadingInitial()) {
         return
       }
 
       this.getData()
+    }
+
+    /* Synching when blocks & Txs are not available */
+    serverIsSynching() {
+      const { blocksIsSynching, transactionsIsSynching } = this.state
+
+      return !!blocksIsSynching && !!transactionsIsSynching
     }
 
     async getData() {
@@ -54,11 +63,17 @@ export const createHome = (HomeView, Navbar) => {
           api.getLatestTransactions(100)
         ])
 
-        this.setState({ blocks, transactions, error: null })
+        this.setState({
+          blocks: blocks.blocks,
+          blocksIsSynching: blocks.isSynching,
+          transactions: transactions.transactions,
+          transactionsIsSynching: transactions.isSynching,
+          error: null
+        })
       } catch (e) {
         const { status, statusText } = e.response
 
-        if (this.isLoading()) {
+        if (this.isLoadingInitial()) {
           const error = {
             status,
             statusText,
@@ -72,9 +87,15 @@ export const createHome = (HomeView, Navbar) => {
 
     render() {
       const { history } = this.props
-      const { blocks, transactions, error } = this.state
+      const {
+        blocks,
+        blocksIsSynching,
+        transactions,
+        transactionsIsSynching,
+        error
+      } = this.state
 
-      if (this.isLoading()) {
+      if (this.isLoadingInitial() || this.serverIsSynching()) {
         return <Loading navbar={Navbar} history={history} />
       }
 
@@ -84,7 +105,14 @@ export const createHome = (HomeView, Navbar) => {
           <Main>
             {error
               ? <ErrorView error={error} />
-              : <HomeView blocks={blocks} transactions={transactions} />
+              : (
+                <HomeView
+                  blocks={blocks}
+                  blocksIsSynching={blocksIsSynching}
+                  transactions={transactions}
+                  transactionsIsSynching={transactionsIsSynching}
+                />
+              )
             }
           </Main>
         </Fragment>
