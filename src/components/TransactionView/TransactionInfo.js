@@ -39,7 +39,9 @@ const TransactionInfo = ({ tx, classes }) => (
 
           {/** To address */}
           <TableRow>
-            <TableCell component="th" scope="row">To</TableCell>
+            <TableCell component="th" scope="row">
+              {tx.to ? 'To' : 'Creates'}
+            </TableCell>
             <TableCell>
               {tx.enhanced && <span>{tx.toName}{tx.to && '—'}</span>}
               <span className={classes.mono}>{tx.to}</span>
