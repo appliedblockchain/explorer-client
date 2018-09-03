@@ -107,7 +107,7 @@ const BlockView = ({ info, classes }) => (
                     )}
                     <Link
                       className={`${classes.link} ${classes.mono}`}
-                      to={`/transactions/${tx}`}
+                      to={`/transactions/${tx.hash}`}
                     >
                       {tx.hash}
                     </Link>
